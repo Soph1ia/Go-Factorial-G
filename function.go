@@ -29,14 +29,14 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if d.Message == "" {
-		fmt.Fprint(w, "Please input a number for factorial")
+		_, _ = fmt.Fprint(w, "Please input a number for factorial")
 		return
 	}
 
 	//Convert string to number.
 	number, _ := strconv.Atoi(d.Message)
 	// Calculate Factorial
-	response := strconv.FormatUint(factorial(number), 64)
+	response := strconv.FormatUint(factorial(number), 16)
 	// print out the factorial output
 	_, _ = fmt.Fprint(w, response)
 }
