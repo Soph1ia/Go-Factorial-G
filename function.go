@@ -5,8 +5,10 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"math/big"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // HelloWorld prints the JSON encoded "message" field in the body
@@ -35,31 +37,79 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 
 	//Convert string to number.
 	number, _ := strconv.Atoi(d.Message)
-	// Calculate Factorial
-	response := strconv.FormatUint(factorial(number), 16)
-	// print out the factorial output
-	_, _ = fmt.Fprint(w, response)
+	// Call Benchmarking Function
+	benchmark("factorial", number, w)
 }
 
-/* Variable Declaration */
-var factVal uint64 = 1 // uint64 is the set of all unsigned 64-bit integers.
+/**
+Method : Benchmark
 
-/*     function declaration        */
-func factorial(n int) uint64 {
+This method gets the time taken to execute the factorial 40 times.
+In total it loops 80 times.
+It takes the last 20 execution times.
+Gets the average time
+Calculates the throughput as time / 40
+
+Prints out the throughput.
+
+returns: none
+
+*/
+func benchmark(funcName string, number int, w http.ResponseWriter) {
+	listofTime := [20]int64{}
+
+	for j := 0; j < 40; j++ {
+		start := time.Now().UnixNano()
+		// Loop 40 times.
+		for i := 0; i <= 40; i++ {
+			factorial(number)
+		}
+		// End time
+		end := time.Now().UnixNano()
+		// Results
+		if j > 20 {
+			difference := end - start
+			listofTime[j-20] = difference
+		}
+	}
+	// Average Time
+	sum := int64(0)
+	for i := 0; i < len(listofTime); i++ {
+		// adding the values of
+		// array to the variable sum
+		sum += listofTime[i]
+	}
+	// avg to find the average
+	avg := (float64(sum)) / (float64(len(listofTime)))
+
+	// Throughput Rate
+	throughput := avg / 40
+	fmt.Fprint(w, "Time taken by %s function is %v ops/ns \n", funcName, throughput)
+}
+
+/**
+Method: Factorial
+
+Calculates the factorial of the number provided
+
+Returns: pointer to big int
+*/
+func factorial(n int) *big.Int {
+	factVal := big.NewInt(1)
 	if n < 0 {
 		fmt.Print("Factorial of negative number doesn't exist.")
-	}else{
-		for i:=1; i<=n; i++ {
-			factVal *= uint64(i)  // mismatched types int64 and int
+	} else {
+		for i := 1; i <= n; i++ {
+			//factVal *= uint64(i) // mismatched types int64 and int
+			factVal = factVal.Mul(factVal, big.NewInt(int64(i)))
 		}
-		return factVal
 	}
-	return 0  /* return from function*/
+	return factVal
 }
 
 /**
 Testing Purposes
- */
+*/
 //func main() {
 //
 //	//Convert string to number.
@@ -69,4 +119,3 @@ Testing Purposes
 //	// print out the factorial output
 //	_, _ = fmt.Print(response)
 //}
-
