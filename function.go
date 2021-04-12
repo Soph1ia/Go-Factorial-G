@@ -19,7 +19,7 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewDecoder(r.Body).Decode(&d); err != nil {
 		switch err {
 		case io.EOF:
-			fmt.Fprint(w, "Enter a number")
+			_, _ = fmt.Fprint(w, "Enter a number")
 			return
 		default:
 			log.Printf("json.NewDecoder: %v", err)
@@ -52,9 +52,21 @@ func factorial(n int) uint64 {
 		for i:=1; i<=n; i++ {
 			factVal *= uint64(i)  // mismatched types int64 and int
 		}
-
+		return factVal
 	}
-	return factVal  /* return from function*/
+	return 0  /* return from function*/
 }
 
+/**
+Testing Purposes
+ */
+//func main() {
+//
+//	//Convert string to number.
+//	number, _ := strconv.Atoi("4")
+//	// Calculate Factorial
+//	response := strconv.FormatUint(factorial(number), 10)
+//	// print out the factorial output
+//	_, _ = fmt.Print(response)
+//}
 
