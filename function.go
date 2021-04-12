@@ -84,7 +84,9 @@ func benchmark(funcName string, number int, w http.ResponseWriter) {
 
 	// Throughput Rate
 	throughput := avg / 40
-	fmt.Fprint(w, "Time taken by %s function is %v ops/ns \n", funcName, throughput)
+
+	// Response
+	fmt.Fprintf(w, "Time taken by %s function is %v ops/ns \n", funcName, throughput)
 }
 
 /**
