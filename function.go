@@ -38,12 +38,11 @@ func HelloWorld(w http.ResponseWriter, r *http.Request) {
 	// Calculate Factorial
 	response := strconv.FormatUint(factorial(number), 64)
 	// print out the factorial output
-	fmt.Fprint(w, response)
+	_, _ = fmt.Fprint(w, response)
 }
 
 /* Variable Declaration */
 var factVal uint64 = 1 // uint64 is the set of all unsigned 64-bit integers.
-var i int = 1
 
 /*     function declaration        */
 func factorial(n int) uint64 {
@@ -57,3 +56,5 @@ func factorial(n int) uint64 {
 	}
 	return factVal  /* return from function*/
 }
+
+
