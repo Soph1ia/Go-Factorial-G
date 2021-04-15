@@ -56,21 +56,18 @@ returns: none
 
 */
 func benchmark(funcName string, number int, w http.ResponseWriter) {
-	listofTime := [20]int64{}
+	listofTime := [41]int64{}
 
 	for j := 0; j < 40; j++ {
 		start := time.Now().UnixNano()
-		// Loop 40 times.
-		for i := 0; i <= 40; i++ {
-			factorial(number)
-		}
+		factorial(number)
+
 		// End time
 		end := time.Now().UnixNano()
 		// Results
-		if j > 20 {
-			difference := end - start
-			listofTime[j-20] = difference
-		}
+		difference := end - start
+		listofTime[j] = difference
+
 	}
 	// Average Time
 	sum := int64(0)
