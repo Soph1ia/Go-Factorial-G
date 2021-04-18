@@ -48,7 +48,7 @@ This method gets the time taken to execute the factorial 40 times.
 In total it loops 80 times.
 It takes the last 20 execution times.
 Gets the average time
-Calculates the throughput as time / 40
+Calculates the throughput as40/time 
 
 Prints out the throughput.
 
@@ -80,7 +80,7 @@ func benchmark(funcName string, number int, w http.ResponseWriter) {
 	avg := (float64(sum)) / (float64(len(listofTime)))
 
 	// Throughput Rate
-	throughput := avg / 40
+	throughput := 40/avg
 
 	// Response
 	fmt.Fprintf(w, "Time taken by %s function is %v ops/ns \n", funcName, throughput)
